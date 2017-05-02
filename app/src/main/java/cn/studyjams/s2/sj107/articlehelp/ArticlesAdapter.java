@@ -39,9 +39,9 @@ public class ArticlesAdapter extends ArrayAdapter<Article> {
         TextView createTimeTv = (TextView) convertView.findViewById(R.id.tv_create_time);
 
         Article article = getItem(position);
-        articleTitleTv.setText(article.getArticleTitle());
-        articleContentTv.setText(article.getArticleContent());
-        articleAuthorTv.setText(article.getAuthorId());
+        articleTitleTv.setText(article.getArticleTitle() == null ? "-" : article.getArticleTitle());
+        articleContentTv.setText(article.getArticleContent() == null ? "-" : article.getArticleContent());
+        articleAuthorTv.setText(article.getAuthorName() == null ? "-" : article.getAuthorName());
         Date date = new Date(article.getCreatTime());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         String format = simpleDateFormat.format(date);

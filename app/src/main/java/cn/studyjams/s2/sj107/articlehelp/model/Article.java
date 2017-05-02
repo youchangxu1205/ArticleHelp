@@ -10,14 +10,17 @@ public class Article {
     private String authorId;
     private Long creatTime;
 
+    private String authorName;
+
     public Article() {
     }
 
-    public Article(String articleTitle, String articleContent, String authorId, Long creatTime) {
+    public Article(String articleTitle, String articleContent, String authorId, Long creatTime, String authorName) {
         this.articleTitle = articleTitle;
         this.articleContent = articleContent;
         this.authorId = authorId;
         this.creatTime = creatTime;
+        this.authorName = authorName;
     }
 
     public String getArticleTitle() {
@@ -50,5 +53,13 @@ public class Article {
 
     public void setCreatTime(Long creatTime) {
         this.creatTime = creatTime;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

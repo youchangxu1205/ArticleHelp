@@ -1,0 +1,64 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">文章</string>
+    <string name="please_input_email">请输入邮箱</string>
+    <string name="login">登录</string>
+    <string name="sign_in">登录</string>
+    <string name="button_text_send">发送</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="sign_in_with_email">通过邮箱登录</string>
+    <string name="next">下一步</string>
+    <string name="email_hint">邮箱</string>
+    <string name="password_hint">密码</string>
+
+    <string name="progress_dialog_loading">加载中…</string>
+    <string name="progress_dialog_sending">发送中…</string>
+    <string name="progress_dialog_signing_in">正在登录…</string>
+    <string name="progress_dialog_signing_up">正在注册…</string>
+    <string name="create_account_title">创建账户</string>
+    <string name="name_hint">姓名</string>
+    <string name="button_text_save">保存</string>
+    <string name="trouble_signing_in">登录有问题?</string>
+    <string name="recover_password_title">重置密码</string>
+
+    <string name="password_recovery_body">获取此电子邮件的说明，说明如何重置密码</string>
+    <string name="check_your_email">查看你的邮箱</string>
+    <string name="confirm_recovery_body">根据发送到 %1$s 中的指示去重置你的面</string>
+    <string name="button_done">完成</string>
+    <string name="missing_email_address">请输入你的邮箱</string>
+
+    <string name="required_field">该字段不能为空</string>
+    <string name="password_length">密码长度不得少于 %1$d 字节</string>
+
+
+    <string name="sign_in_no_password_title">请输入邮箱,以便登录</string>
+    <string name="button_password_recovery_text">双击记住你的密码</string>
+    <string name="password_recovery_title">忘记密码</string>
+    <string name="invalid_email_address">邮箱地址不正确</string>
+    <string name="error_weak_password">密码过于简单,请输入不少于6个字节的字母和数字的组合</string>
+    <string name="error_user_collision">该邮箱已经注册过一个账号了</string>
+    <string name="require_email_text">请输入邮箱地址</string>
+    <string name="error_email_does_not_exist">该邮箱没有注册过账号</string>
+    <string name="account_welcomeback">欢迎回来</string>
+    <string name="finding_credential">正在查找凭据…</string>
+    <string name="do_delete">删除</string>
+    <string name="welcome_back">欢迎回来!</string>
+    <string name="sign_in_with_google">使用Google账号登录</string>
+    <string name="sign_in_with_facebook">使用Facebook账号登录</string>
+    <string name="welcome_back_idp_header">您已经有一个账号了</string>
+    <string name="welcome_back_idp_prompt">
+        You\'ve already used <xliff:g example="jane.doe@example.com" id="email_addr">%1$s</xliff:g>.
+        Sign in with <xliff:g example="Google" id="provider_name">%2$s</xliff:g> to continue.
+    </string>
+    <string name="welcome_back_password_prompt_body">You\'ve already used
+        <xliff:g example="jane.doe@example.com" id="email_addr">%1$s</xliff:g> to sign in. Enter
+        your password for that account.</string>
+    <string name="password_word">密码</string>
+    <string name="idp_name_google">Google</string>
+    <string name="idp_name_facebook">Facebook</string>
+    <string name="create_account_preamble">"By tapping SAVE you are indicating that you agree to the "</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="login_error">登录失败</string>
+    <string name="email_account_creation_error">邮箱账号注册失败</string>
+    <string name="missing_password_email_toast">密码或邮箱不正确</string>
+
+</resources>
