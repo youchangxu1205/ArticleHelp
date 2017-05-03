@@ -1,6 +1,5 @@
 package cn.studyjams.s2.sj107.articlehelp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,17 +28,24 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.studyjams.s2.sj107.articlehelp.model.Article;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
-    private CoordinatorLayout mainContent;
-    private NavigationView navigationView;
-    private AppBarLayout appbar;
-    private ListView listView;
-    private Toolbar toolBar;
-    private FloatingActionButton floatingActionButton;
+    @BindView(R.id.tool_bar)
+    Toolbar toolBar;
+    @BindView(R.id.list_view)
+    ListView listView;
+    @BindView(R.id.floating_action_btn)
+    FloatingActionButton floatingActionBtn;
+    @BindView(R.id.main_content)
+    CoordinatorLayout mainContent;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     private FirebaseDatabase database;
     private DatabaseReference articlesReference;
@@ -58,15 +64,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mainContent = (CoordinatorLayout) findViewById(R.id.main_content);
-        navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        appbar = (AppBarLayout) findViewById(R.id.appbar);
-        listView = (ListView) findViewById(R.id.list_view);
-        toolBar = (Toolbar) appbar.findViewById(R.id.tool_bar);
-        floatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_btn);
-
+        ButterKnife.bind(this);
 
         database = FirebaseDatabase.getInstance();
         articlesReference = database.getReference("articles");
@@ -88,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        floatingActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //开启添加文章界面
