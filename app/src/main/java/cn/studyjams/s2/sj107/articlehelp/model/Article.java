@@ -1,5 +1,10 @@
 package cn.studyjams.s2.sj107.articlehelp.model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by dtkj_android on 2017/4/28.
  */
@@ -8,18 +13,17 @@ public class Article {
     private String articleTitle;
     private String articleContent;
     private String authorId;
-    private Long creatTime;
-
+    private Long createTime;
     private String authorName;
 
     public Article() {
     }
 
-    public Article(String articleTitle, String articleContent, String authorId, Long creatTime, String authorName) {
+    public Article(String articleTitle, String articleContent, String authorId, Long createTime, String authorName) {
         this.articleTitle = articleTitle;
         this.articleContent = articleContent;
         this.authorId = authorId;
-        this.creatTime = creatTime;
+        this.createTime = createTime;
         this.authorName = authorName;
     }
 
@@ -47,12 +51,12 @@ public class Article {
         this.authorId = authorId;
     }
 
-    public Long getCreatTime() {
-        return creatTime;
+    public Long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Long creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
     }
 
     public String getAuthorName() {
@@ -61,5 +65,18 @@ public class Article {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    // [START post_to_map]
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("authorId", authorId);
+        result.put("authorName", authorName);
+        result.put("articleTitle", articleTitle);
+        result.put("articleContent", articleContent);
+        result.put("createTime", createTime);
+
+        return result;
     }
 }

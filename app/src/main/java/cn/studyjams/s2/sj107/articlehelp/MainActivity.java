@@ -3,7 +3,6 @@ package cn.studyjams.s2.sj107.articlehelp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mFirebaseAuth = FirebaseAuth.getInstance();
-//        mFirebaseAuth.signOut();
         attachDatabaseReadListener();
     }
 
@@ -111,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void toLoginActivity() {
+        Toast.makeText(this, "只有登录用户才可以发表文章,请先登录", Toast.LENGTH_SHORT).show();
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -142,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                     Article article = dataSnapshot.getValue(Article.class);
                     articlesAdapter.add(article);
+                    //TODO 缓存到数据库中
                 }
 
                 public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -160,7 +160,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        attachDatabaseReadListener();
+    }
+
     private void detachDatabaseReadListener() {
+
         if (mChildEventListener != null) {
             query.removeEventListener(mChildEventListener);
             mChildEventListener = null;
@@ -170,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        articlesAdapter.clear();
         detachDatabaseReadListener();
     }
 }

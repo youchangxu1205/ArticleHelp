@@ -42,7 +42,7 @@ public class ArticlesAdapter extends ArrayAdapter<Article> {
         articleTitleTv.setText(article.getArticleTitle() == null ? "-" : article.getArticleTitle());
         articleContentTv.setText(article.getArticleContent() == null ? "-" : article.getArticleContent());
         articleAuthorTv.setText(article.getAuthorName() == null ? "-" : article.getAuthorName());
-        Date date = new Date(article.getCreatTime());
+        Date date = new Date(article.getCreateTime());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
         String format = simpleDateFormat.format(date);
         createTimeTv.setText(format);

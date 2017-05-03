@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,7 +43,6 @@ public class AddArticleActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mFirebaseAuth;
-    private FirebaseDatabase database;
     private DatabaseReference articlesReference;
     private ProgressDialog mProgressDialog;
 
@@ -50,10 +53,11 @@ public class AddArticleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mProgressDialog = new ProgressDialog(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        articlesReference = database.getReference("articles");
+        articlesReference = FirebaseDatabase.getInstance().getReference();
         toolBar.setTitle("添加文章");
         setSupportActionBar(toolBar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -76,12 +80,12 @@ public class AddArticleActivity extends AppCompatActivity {
         String articleContent = etArticleContent.getText().toString().trim();
 
         if (TextUtils.isEmpty(articleTitle)) {
-
+            Toast.makeText(this, "文章标题不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (TextUtils.isEmpty(articleContent)) {
-
+            Toast.makeText(this, "文章内容不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         mProgressDialog.setMessage("正在保存");
@@ -89,18 +93,24 @@ public class AddArticleActivity extends AppCompatActivity {
         mProgressDialog.show();
 
         FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-        articlesReference.push().setValue(new Article(articleTitle, articleContent, currentUser.getUid(), new Date().getTime(), currentUser.getDisplayName())).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String key = articlesReference.push().getKey();
+        Article article = new Article(articleTitle, articleContent, currentUser.getUid(), new Date().getTime(), currentUser.getDisplayName());
+        Map<String, Object> articleMap = article.toMap();
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/articles/" + key, articleMap);
+        childUpdates.put("/user_articles/" + currentUser.getUid() + "/" + key, articleMap);
+        articlesReference.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 mProgressDialog.dismiss();
                 if (task.isSuccessful()) {
                     finish();
                 } else {
-
+                    Toast.makeText(AddArticleActivity.this, "文章保存失败", Toast.LENGTH_SHORT).show();
+                    //TODO 保存到草稿中.保存到数据库中
                 }
             }
         });
-
 
     }
 }

@@ -4,15 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    android:elevation="4dp"
+    android:theme="@style/ToolBarTheme"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="4dp"
         app:titleTextColor="@android:color/white">
 
     </android.support.v7.widget.Toolbar>
