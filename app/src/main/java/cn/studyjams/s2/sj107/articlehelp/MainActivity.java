@@ -1,5 +1,6 @@
 package cn.studyjams.s2.sj107.articlehelp;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     public static final int RC_SIGN_IN = 1;
     private Query query;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         articlesReference = database.getReference("articles");
-        query = articlesReference.orderByValue();
+        query = articlesReference.orderByChild("createTime");
 
 
         toolBar.setTitle("首页");

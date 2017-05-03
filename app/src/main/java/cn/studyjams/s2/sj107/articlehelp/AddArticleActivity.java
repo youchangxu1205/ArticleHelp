@@ -1,6 +1,8 @@
 package cn.studyjams.s2.sj107.articlehelp;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,8 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -37,17 +41,17 @@ public class AddArticleActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseDatabase database;
     private DatabaseReference articlesReference;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_article);
         ButterKnife.bind(this);
-
+        mProgressDialog = new ProgressDialog(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         articlesReference = database.getReference("articles");
-
         toolBar.setTitle("添加文章");
         setSupportActionBar(toolBar);
     }
@@ -80,9 +84,22 @@ public class AddArticleActivity extends AppCompatActivity {
 
             return;
         }
+        mProgressDialog.setMessage("正在保存");
+        mProgressDialog.setCanceledOnTouchOutside(false);
+        mProgressDialog.show();
 
         FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-        articlesReference.push().setValue(new Article(articleTitle, articleContent, currentUser.getProviderId(), new Date().getTime(), currentUser.getDisplayName()));
+        articlesReference.push().setValue(new Article(articleTitle, articleContent, currentUser.getUid(), new Date().getTime(), currentUser.getDisplayName())).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                mProgressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                } else {
+
+                }
+            }
+        });
 
 
     }
