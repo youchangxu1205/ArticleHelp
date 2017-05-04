@@ -8,10 +8,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -22,7 +24,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +34,12 @@ import cn.studyjams.s2.sj107.articlehelp.model.Article;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MainActivity";
+
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
-    @BindView(R.id.list_view)
-    ListView listView;
+    //    @BindView(R.id.list_view)
+//    ListView listView;
     @BindView(R.id.floating_action_btn)
     FloatingActionButton floatingActionBtn;
     @BindView(R.id.main_content)
@@ -45,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.recycle_view)
+    RecyclerView recycleView;
 
     private FirebaseDatabase database;
     private DatabaseReference articlesReference;
 
-    private ArticlesAdapter articlesAdapter;
+    //    private ArticlesAdapter articlesAdapter;
+    private ArticlesRecycleAdapter articlesRecycleAdapter;
     private List<Article> articles;
     private ChildEventListener mChildEventListener;
 
@@ -57,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
 
     public static final int RC_SIGN_IN = 1;
-    private Query query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         articlesReference = database.getReference("articles");
-        query = articlesReference.orderByChild("createTime");
-
 
         toolBar.setTitle("首页");
         setSupportActionBar(toolBar);
         articles = new ArrayList<>();
-        articlesAdapter = new ArticlesAdapter(this, R.layout.item_article, articles);
-        listView.setAdapter(articlesAdapter);
+        articlesRecycleAdapter = new ArticlesRecycleAdapter(this, articles);
+        recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recycleView.setAdapter(articlesRecycleAdapter);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -139,8 +143,12 @@ public class MainActivity extends AppCompatActivity {
             mChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Log.i(TAG, s + "");
+
                     Article article = dataSnapshot.getValue(Article.class);
-                    articlesAdapter.add(article);
+                    articles.add(0, article);
+                    articlesRecycleAdapter.notifyDataSetChanged();
+//                    articlesAdapter.add(article);
                     //TODO 缓存到数据库中
                 }
 
@@ -156,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            query.addChildEventListener(mChildEventListener);
+            articlesReference.addChildEventListener(mChildEventListener);
         }
     }
 
@@ -169,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     private void detachDatabaseReadListener() {
 
         if (mChildEventListener != null) {
-            query.removeEventListener(mChildEventListener);
+            articlesReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }
@@ -177,7 +185,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        articlesAdapter.clear();
+//        articlesAdapter.clear();
+        articles.clear();
         detachDatabaseReadListener();
     }
 }

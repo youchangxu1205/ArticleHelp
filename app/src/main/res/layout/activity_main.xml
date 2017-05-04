@@ -16,8 +16,15 @@
             android:id="@+id/appbar"
             layout="@layout/toolbar" />
 
-        <ListView
-            android:id="@+id/list_view"
+        <!--<ListView-->
+            <!--android:id="@+id/list_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:scrollbars="none"-->
+            <!--app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycle_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
