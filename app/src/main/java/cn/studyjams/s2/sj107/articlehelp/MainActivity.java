@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -38,8 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.tool_bar)
     Toolbar toolBar;
-    //    @BindView(R.id.list_view)
-//    ListView listView;
     @BindView(R.id.floating_action_btn)
     FloatingActionButton floatingActionBtn;
     @BindView(R.id.main_content)
@@ -51,18 +50,18 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycle_view)
     RecyclerView recycleView;
 
-    private FirebaseDatabase database;
-    private DatabaseReference articlesReference;
 
     //    private ArticlesAdapter articlesAdapter;
     private ArticlesRecycleAdapter articlesRecycleAdapter;
     private List<Article> articles;
-    private ChildEventListener mChildEventListener;
 
 
     private FirebaseAuth mFirebaseAuth;
+    private DatabaseReference articlesReference;
+    private ChildEventListener mChildEventListener;
 
-    public static final int RC_SIGN_IN = 1;
+    public static final int TO_ADD_ARTICLE = 1;
+    public static final int TO_USER_DETAIL = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +69,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        database = FirebaseDatabase.getInstance();
-        articlesReference = database.getReference("articles");
-
+        articlesReference = FirebaseDatabase.getInstance().getReference("articles");
+        //获取最新的50条数据
+//        query = articlesReference.limitToLast(50);
         toolBar.setTitle("首页");
         setSupportActionBar(toolBar);
+
         articles = new ArrayList<>();
         articlesRecycleAdapter = new ArticlesRecycleAdapter(this, articles);
         recycleView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -88,6 +88,20 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+        View headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
+        ImageView imageView = (ImageView) headerView.findViewById(R.id.iv_avatar);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //开启用户详情页面
+                FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+                if (currentUser == null) {
+                    toLoginActivity(TO_USER_DETAIL);
+                } else {
+                    toUserDetailActivity();
+                }
+            }
+        });
 
         floatingActionBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 //开启添加文章界面
                 FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
                 if (currentUser == null) {
-                    toLoginActivity();
+                    toLoginActivity(TO_ADD_ARTICLE);
                 } else {
                     toAddArticleActivity();
                 }
@@ -104,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         attachDatabaseReadListener();
+
+
+    }
+
+    private void toUserDetailActivity() {
+        Intent intent = new Intent(this, UserDetailActivity.class);
+        startActivity(intent);
     }
 
     private void toAddArticleActivity() {
@@ -112,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void toLoginActivity() {
+    private void toLoginActivity(int code) {
         Toast.makeText(this, "只有登录用户才可以发表文章,请先登录", Toast.LENGTH_SHORT).show();
         startActivityForResult(
                 AuthUI.getInstance()
@@ -121,52 +142,27 @@ public class MainActivity extends AppCompatActivity {
                         .setProviders(
                                 AuthUI.EMAIL_PROVIDER)
                         .build(),
-                RC_SIGN_IN);
+                code);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            if (resultCode == RESULT_OK) {
-                // Sign-in succeeded, set up the UI
-                Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show();
-            } else if (resultCode == RESULT_CANCELED) {
-                // Sign in was canceled by the user, finish the activity
-                Toast.makeText(this, "登录被取消了", Toast.LENGTH_SHORT).show();
+
+        if (resultCode == RESULT_OK) {
+            // Sign-in succeeded, set up the UI
+            Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show();
+            if (requestCode == TO_ADD_ARTICLE) {
+                toAddArticleActivity();
+            } else if (requestCode == TO_USER_DETAIL) {
+                toUserDetailActivity();
             }
+        } else if (resultCode == RESULT_CANCELED) {
+            // Sign in was canceled by the user, finish the activity
+            Toast.makeText(this, "登录被取消了", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void attachDatabaseReadListener() {
-        if (mChildEventListener == null) {
-            mChildEventListener = new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.i(TAG, s + "");
-
-                    Article article = dataSnapshot.getValue(Article.class);
-                    articles.add(0, article);
-                    articlesRecycleAdapter.notifyDataSetChanged();
-//                    articlesAdapter.add(article);
-                    //TODO 缓存到数据库中
-                }
-
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                }
-
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
-
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                }
-
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            };
-            articlesReference.addChildEventListener(mChildEventListener);
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -174,19 +170,51 @@ public class MainActivity extends AppCompatActivity {
         attachDatabaseReadListener();
     }
 
-    private void detachDatabaseReadListener() {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        articles.clear();
+        detachDatabaseReadListener();
+    }
 
+    private void attachDatabaseReadListener() {
+        if (mChildEventListener == null) {
+            mChildEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                    Article article = dataSnapshot.getValue(Article.class);
+                    articles.add(0, article);
+                    articlesRecycleAdapter.notifyDataSetChanged();
+                }
+
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                    Log.i("onChildChanged", dataSnapshot.getKey());
+                }
+
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                    Log.i("onChildRemoved", dataSnapshot.getKey());
+                    articles.remove(dataSnapshot.getValue(Article.class));
+                    articlesRecycleAdapter.notifyDataSetChanged();
+                }
+
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                    Log.i("onChildMoved", dataSnapshot.getKey());
+                }
+
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.i("onCancelled", databaseError.getDetails());
+                }
+            };
+            articlesReference.addChildEventListener(mChildEventListener);
+        }
+    }
+
+    private void detachDatabaseReadListener() {
         if (mChildEventListener != null) {
             articlesReference.removeEventListener(mChildEventListener);
             mChildEventListener = null;
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        articlesAdapter.clear();
-        articles.clear();
-        detachDatabaseReadListener();
-    }
 }

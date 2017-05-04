@@ -43,7 +43,7 @@ public class AddArticleActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mFirebaseAuth;
-    private DatabaseReference articlesReference;
+    private DatabaseReference databaseReference;
     private ProgressDialog mProgressDialog;
 
     @Override
@@ -53,7 +53,7 @@ public class AddArticleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         mProgressDialog = new ProgressDialog(this);
         mFirebaseAuth = FirebaseAuth.getInstance();
-        articlesReference = FirebaseDatabase.getInstance().getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         toolBar.setTitle("添加文章");
         setSupportActionBar(toolBar);
         ActionBar actionBar = getSupportActionBar();
@@ -93,13 +93,13 @@ public class AddArticleActivity extends AppCompatActivity {
         mProgressDialog.show();
 
         FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
-        String key = articlesReference.push().getKey();
-        Article article = new Article(articleTitle, articleContent, currentUser.getUid(), new Date().getTime(), currentUser.getDisplayName());
+        String key = databaseReference.push().getKey();
+        Article article = new Article(articleTitle, articleContent, currentUser.getUid(), new Date().getTime(), currentUser.getDisplayName(),key);
         Map<String, Object> articleMap = article.toMap();
         Map<String, Object> childUpdates = new HashMap<>();
         childUpdates.put("/articles/" + key, articleMap);
         childUpdates.put("/user_articles/" + currentUser.getUid() + "/" + key, articleMap);
-        articlesReference.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+        databaseReference.updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 mProgressDialog.dismiss();
