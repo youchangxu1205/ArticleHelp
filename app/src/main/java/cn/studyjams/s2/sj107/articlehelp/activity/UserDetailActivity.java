@@ -1,7 +1,8 @@
-package cn.studyjams.s2.sj107.articlehelp;
+package cn.studyjams.s2.sj107.articlehelp.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.studyjams.s2.sj107.articlehelp.R;
 
 /**
  * 用户详情页
@@ -48,7 +50,8 @@ public class UserDetailActivity extends AppCompatActivity {
 
         toolBar.setTitle("用户详情");
         setSupportActionBar(toolBar);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //进入该页面肯定已经登录
 
 

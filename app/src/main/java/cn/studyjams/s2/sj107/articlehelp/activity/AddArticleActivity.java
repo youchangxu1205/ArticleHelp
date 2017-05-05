@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp;
+package cn.studyjams.s2.sj107.articlehelp.activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -26,6 +26,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.studyjams.s2.sj107.articlehelp.R;
 import cn.studyjams.s2.sj107.articlehelp.model.Article;
 
 

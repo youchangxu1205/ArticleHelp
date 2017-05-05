@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">ArticleHelp</string>
-    <string name="article_title">文章标题</string>
-    <string name="article_content">文章内容</string>
+    <string name="article_title">ArticleTitle</string>
+    <string name="article_content">ArticleContent</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
 </resources>

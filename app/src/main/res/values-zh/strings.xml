@@ -58,4 +58,9 @@
     <string name="email_account_creation_error">邮箱账号注册失败</string>
     <string name="missing_password_email_toast">密码或邮箱不正确</string>
 
+    <string name="article_title">文章标题</string>
+    <string name="article_content">文章内容</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+
 </resources>
