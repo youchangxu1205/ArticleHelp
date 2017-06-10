@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp;
+package cn.studyjams.s2.sj107.article;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import cn.studyjams.s2.sj107.articlehelp.model.Article;
+import cn.studyjams.s2.sj107.article.model.Article;
 
 /**
  * Created by dtkj_android on 2017/5/4.

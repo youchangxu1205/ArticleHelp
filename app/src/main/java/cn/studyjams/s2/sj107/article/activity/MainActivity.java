@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp.activity;
+package cn.studyjams.s2.sj107.article.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -25,9 +24,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.studyjams.s2.sj107.articlehelp.R;
-import cn.studyjams.s2.sj107.articlehelp.fragment.MyArticleFragment;
-import cn.studyjams.s2.sj107.articlehelp.fragment.RecentArticleFragment;
+import cn.studyjams.s2.sj107.article.R;
+import cn.studyjams.s2.sj107.article.fragment.MyArticleFragment;
+import cn.studyjams.s2.sj107.article.fragment.RecentArticleFragment;
 
 public class MainActivity extends AppCompatActivity {
 

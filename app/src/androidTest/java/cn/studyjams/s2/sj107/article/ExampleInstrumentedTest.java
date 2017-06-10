@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp;
+package cn.studyjams.s2.sj107.article;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

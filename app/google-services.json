@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:801830713607:android:0faa1dafe61d2201",
+        "mobilesdk_app_id": "1:801830713607:android:8caeeeb3fb9bc4ed",
         "android_client_info": {
-          "package_name": "cn.studyjams.s2.sj107.articlehelp"
+          "package_name": "cn.studyjams.s2.sj107.article"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "801830713607-7jav4sdq7kef44j6oik0kh8stpcgdnt2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cn.studyjams.s2.sj107.article",
+            "certificate_hash": "4e928c16a9c16c3ddbeaecacc36bda8979e93479"
+          }
+        },
         {
           "client_id": "801830713607-5harl2bd61860pqujfh16pnmmoj1ksan.apps.googleusercontent.com",
           "client_type": 3
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801830713607-5harl2bd61860pqujfh16pnmmoj1ksan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

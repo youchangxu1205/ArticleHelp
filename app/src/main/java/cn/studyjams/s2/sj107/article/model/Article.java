@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp.model;
+package cn.studyjams.s2.sj107.article.model;
 
 import com.google.firebase.database.Exclude;
 

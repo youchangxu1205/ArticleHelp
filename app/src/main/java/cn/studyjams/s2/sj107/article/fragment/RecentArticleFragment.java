@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp.fragment;
+package cn.studyjams.s2.sj107.article.fragment;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;

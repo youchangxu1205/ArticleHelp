@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp.fragment;
+package cn.studyjams.s2.sj107.article.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,9 +22,9 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import cn.studyjams.s2.sj107.articlehelp.R;
-import cn.studyjams.s2.sj107.articlehelp.model.Article;
-import cn.studyjams.s2.sj107.articlehelp.viewholder.ArticleViewHolder;
+import cn.studyjams.s2.sj107.article.R;
+import cn.studyjams.s2.sj107.article.model.Article;
+import cn.studyjams.s2.sj107.article.viewholder.ArticleViewHolder;
 
 /**
  * Created by dtkj_android on 2017/5/5.

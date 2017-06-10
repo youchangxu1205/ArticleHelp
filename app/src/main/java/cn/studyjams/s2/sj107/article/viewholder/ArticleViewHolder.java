@@ -1,10 +1,10 @@
-package cn.studyjams.s2.sj107.articlehelp.viewholder;
+package cn.studyjams.s2.sj107.article.viewholder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import cn.studyjams.s2.sj107.articlehelp.R;
+import cn.studyjams.s2.sj107.article.R;
 
 /**
  * Created by dtkj_android on 2017/5/5.

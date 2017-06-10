@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cn.studyjams.s2.sj107.articlehelp">
+    package="cn.studyjams.s2.sj107.article">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="cn.studyjams.s2.sj107.article.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,18 +17,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.AddArticleActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:name="cn.studyjams.s2.sj107.article.activity.AddArticleActivity"
+            android:parentActivityName="cn.studyjams.s2.sj107.article.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value="cn.studyjams.s2.sj107.article.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.UserDetailActivity"
-            android:parentActivityName=".activity.MainActivity">
+            android:name="cn.studyjams.s2.sj107.article.activity.UserDetailActivity"
+            android:parentActivityName="cn.studyjams.s2.sj107.article.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value="cn.studyjams.s2.sj107.article.activity.MainActivity" />
         </activity>
     </application>
 

@@ -1,4 +1,4 @@
-package cn.studyjams.s2.sj107.articlehelp.activity;
+package cn.studyjams.s2.sj107.article.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,7 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.studyjams.s2.sj107.articlehelp.R;
+import cn.studyjams.s2.sj107.article.R;
 
 /**
  * 用户详情页
